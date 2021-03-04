@@ -6,7 +6,7 @@
 
         <section class="content-header">
 
-            <h1>This is the Dashboard</h1>
+            <h1>@lang('site.dashboard')</h1>
 
             <ol class="breadcrumb">
                 <li class="active"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</li>

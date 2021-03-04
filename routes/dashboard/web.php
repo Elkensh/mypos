@@ -14,12 +14,22 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-
 Route::group(
     [
-        'prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath',]
     ], function(){
+    Route::middleware(['auth'])->group(function (){
 
-    Route::get('/dash','WelcomeController@index')->name('dashboard.index');
+        Route::get('/index','WelcomeController@index')->name('dashboard.index');
+
+        //user Routes
+        Route::resource('users','UserController')->except('show');
+
+        //category Routes
+        Route::resource('categories','CategoryController')->except('show');
+
+    });
+
 });
 
