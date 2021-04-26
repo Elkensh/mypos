@@ -8,11 +8,11 @@
 
 
 
-            <h1>@lang('site.categories')</h1>
+            <h1>@lang('site.clients')</h1>
 
             <ol class="breadcrumb">
                 <li><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i>@lang('site.dashboard')</a></li>
-                <li><a href="{{route('categories.index')}}"><i class="fa fa-dashboard"></i>@lang('site.categories')</a></li>
+                <li><a href="{{route('clients.index')}}"><i class="fa fa-dashboard"></i>@lang('site.clients')</a></li>
                 <li><i class="fa fa-dashboard"></i>@lang('site.add')</li>
 
             </ol>
@@ -25,18 +25,27 @@
                 <div class="box-body">
                     @include('partials._errors')
 
-                    <form action="{{route('categories.store')}}" method="post">
+                    <form action="{{route('clients.store')}}" method="post">
 
                         {{csrf_field()}}
                         {{method_field('post')}}
 
-                        @foreach(config('translatable.locales') as $locale)
+                        <div class="form-group">
+                            <label>@lang('site.name')</label>
+                            <input type="text" name="name" class="form-control" value="{{old('name')}}">
+                        </div>
+                        @for($i =0 ; $i < 2; $i++ )
+                        <div class="form-group">
+                            <label>@lang('site.phone')</label>
+                            <input type="number" name="phone[]" class="form-control">
+                        </div>
+                        @endfor
 
                         <div class="form-group">
-                            <label>@lang('site.' . $locale . '.name')</label>
-                            <input type="text" name="{{$locale}}[name]" class="form-control" value="{{old($locale . '.name')}}">
+                            <label>@lang('site.address')</label>
+                            <input type="text" name="address" class="form-control" value="{{old('address')}}">
                         </div>
-                        @endforeach
+
 
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary"><i class="fa fa-plus"> @lang('site.add')</i></button>

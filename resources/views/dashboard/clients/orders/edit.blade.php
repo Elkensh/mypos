@@ -24,34 +24,7 @@
                 </div><!-- ens of box header -->
                 <div class="box-body">
                     @include('partials._errors')
-
-                    <form action="{{route('clients.update',$client->id)}}" method="post">
-
-                        {{csrf_field()}}
-                        {{method_field('put')}}
-
-                        <div class="form-group">
-                            <label>@lang('site.name')</label>
-                            <input type="text" name="name" class="form-control" value="{{$client->name}}">
-                        </div>
-                        @for($i =0 ; $i < 2; $i++ )
-                            <div class="form-group">
-                                <label>@lang('site.phone')</label>
-                                <input type="number" name="phone[]" class="form-control" value="{{$client->phone[$i] ?? ''}}">
-                            </div>
-                        @endfor
-
-                        <div class="form-group">
-                            <label>@lang('site.address')</label>
-                            <input type="text" name="address" class="form-control" value="{{$client->address}}">
-                        </div>
-
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"> @lang('site.add')</i></button>
-                        </div>
-
-                    </form><!-- end of form -->
+                    <h1>body</h1>
 
                 </div><!-- end of box body -->
 

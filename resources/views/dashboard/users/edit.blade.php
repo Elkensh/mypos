@@ -59,7 +59,7 @@
                             <div class="nav-tabs-custom">
                                 <!-- Custom Tabs -->
                                 @php
-                                    $models = ['users','categories','products'];
+                                    $models = ['users','categories','products','clients','orders'];
                                     $maps = ['create','read','update','delete'];
                                 @endphp
 

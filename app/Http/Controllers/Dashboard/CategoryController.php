@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = Category::when($request->search , function ($q) use ($request){
-            return $q->where('name','like','%' .$request->search . '%');
+            return $q->whereTranslationLike('name', '%' . $request->search . '%');
         })->latest()->paginate(10);
         return view('dashboard.category.index',compact('categories'));
     }
@@ -27,11 +27,14 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:categories,name',
-        ]);
+        $rules = [];
+            foreach(config('translatable.locales') as $locale){
+                $rules += [$locale .'.name' =>['required', Rule::unique('category_translations','name')]];
+            }
+
+        $request->validate($rules);
         Category::create($request->all());
-        session()->flash('success', __('site.added.successfully'));
+        session()->flash('success', __('site.added_successfully'));
         return redirect()->route('categories.index');
     }
 
@@ -47,12 +50,15 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        $request->validate([
-            // new validation
-            /*'name' =>  ['required',Rule::unique('categories')->ignore($category->id),],*/
-          //old validation
-            'name' =>  'required|unique:categories,name,' . $category->id,
-        ]);
+        $rules = [];
+
+        foreach(config('translatable.locales') as $locale)
+        {
+            $rules += [$locale .'.name' => ['required' ,Rule::unique('category_translations' , 'name')
+                ->ignore($category->id , 'category_id')]];
+        }
+
+        $request->validate($rules);
         $category->update($request->all());
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('categories.index');

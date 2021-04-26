@@ -6,12 +6,12 @@
 
         <section class="content-header">
 
-            <h1>@lang('site.categories')</h1>
+            <h1>@lang('site.products')</h1>
 
             <ol class="breadcrumb">
 
             <li><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i>@lang('site.dashboard')</a></li>
-            <li><i class="fa fa-dashboard"></i>@lang('site.categories')</li>
+            <li><i class="fa fa-dashboard"></i>@lang('site.products')</li>
             </ol>
         </section>
 
@@ -23,19 +23,32 @@
 
                     <h3 class="box-title" style="margin-bottom: 15px">  @lang('site.dashboard')</h3><small></small>
 
-                    <form action="{{route('categories.index')}}" method="get">
+                    <form action="{{route('products.index')}}" method="get">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" name="search" class="form-control"placeholder="@lang('site.search') " value="{{request()->search}}">
+                                <input type="text" name="search" class="form-control" style="height: 40px" placeholder="@lang('site.search') " value="{{request()->search}}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <select name="category_id" class="form-control" style="height: 40px">
+                                    <option value="">@lang('site.all_categories')</option>
+
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->id}}" {{request()->category_id == $category->id ? 'selected' : ''}} >{{$category->name}}</option>
+                                    @endforeach
+
+                                </select>
                             </div>
 
                             <div class="col-md-4">
 
                                 <button class="btn btn-primary"><i class="fa fa-search"></i> @lang('site.search')</button>
 
-                                {{--@if(auth()->category()->hasPermission('categories_create'))--}}
-                                    <a href="{{route('categories.create')}}" class="btn btn-primary">@lang('site.add')</a>
-
+                                @if(auth()->user()->hasPermission('products_create'))
+                                    <a href="{{route('products.create')}}" class="btn btn-primary">@lang('site.add')</a>
+                                @else
+                                    <a href="#" class="btn btn-primary disabled">@lang('site.add')</a>
+                                @endif
 
 
                             </div>
@@ -45,30 +58,46 @@
 
                     <div class="box-body">
 
-                        @if($categories->count() > 0)
+                        @if($products->count() > 0)
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
                                     <th>@lang('site.name')</th>
+                                    <th>@lang('site.description')</th>
+                                    <th>@lang('site.image')</th>
+                                    <th>@lang('site.categories')</th>
+                                    <th>@lang('site.purchase_price')</th>
+                                    <th>@lang('site.sale_price')</th>
+                                    <th>@lang('site.stock')</th>
+                                    <th>@lang('site.profit_percent') %</th>
                                     <th>@lang('site.action')</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                @foreach($categories as $index => $category)
+                                @foreach($products as $index => $product)
                                     <tr>
                                         <td>{{$index +1}}</td>
-                                        <td>{{$category->name}}</td>
+                                        <td>{{$product->name}}</td>
+                                        <td>{!! $product->description !!}</td>
+                                        <td><img src="{{$product->image_path}}" style="width: 100px" class="img-thumbnail" alt="image"></td>
+                                        <td>{{$product->category->name}}</td>
+                                        <td>{{$product->purchase_price}}</td>
+                                        <td>{{$product->sale_price}}</td>
+                                        <td>{{$product->stock}}</td>
+                                        <td>{{$product->profit_percent}} %</td>
                                         <td>
-                                            {{--@if(auth()->category()->hasPermission('categories_update'))--}}
-                                                <a href="{{route('categories.edit',$category->id)}}"class="btn btn-info btn-sm">@lang('site.edit')</a>
-                                            {{--@else--}}
+                                            @if(auth()->user()->hasPermission('products_update'))
+                                                <a href="{{route('products.edit',$product->id)}}"class="btn btn-info btn-sm">@lang('site.edit')</a>
+                                            @else
+                                                <a href="#"class="btn btn-info btn-sm">@lang('site.edit')</a>
+                                            @endif
 
 
 
-                                            {{--@if(auth()->category()->hasPermission('categories_delete'))--}}
-                                                    <form action="{{route('categories.destroy',$category->id)}}" method="post" style="display: inline-block">
+                                            @if(auth()->user()->hasPermission('products_delete'))
+                                                    <form action="{{route('products.destroy',$product->id)}}" method="post" style="display: inline-block">
 
                                                         {{csrf_field()}}
 
@@ -77,9 +106,9 @@
                                                         <button type="submit"class="btn btn-danger delete btn-sm">@lang('site.delete')</button>
 
                                                     </form>
-                                                {{--@else--}}
-
-                                                {{--@endif--}}
+                                                @else
+                                                    <button type="submit"class="btn btn-danger delete btn-sm disabled">@lang('site.delete')</button>
+                                                @endif
 
                                         </td>
                                     </tr>
@@ -88,7 +117,7 @@
 
                             </table>
 
-                            {{$categories->appends(request()->query())->links()}}
+                            {{$products->appends(request()->query())->links()}}
                         @else
 
                             <h2>@lang('site.no_data_found')</h2>

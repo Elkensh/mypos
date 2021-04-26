@@ -29,13 +29,16 @@
                                 <input type="text" name="search" class="form-control"placeholder="@lang('site.search') " value="{{request()->search}}">
                             </div>
 
+
                             <div class="col-md-4">
 
                                 <button class="btn btn-primary"><i class="fa fa-search"></i> @lang('site.search')</button>
 
-                                {{--@if(auth()->category()->hasPermission('categories_create'))--}}
+                                @if(auth()->user()->hasPermission('categories_create'))
                                     <a href="{{route('categories.create')}}" class="btn btn-primary">@lang('site.add')</a>
-
+                                @else
+                                    <a href="#" class="btn btn-primary disabled">@lang('site.add')</a>
+                                @endif
 
 
                             </div>
@@ -51,6 +54,8 @@
                                 <tr>
                                     <th style="width: 10px">#</th>
                                     <th>@lang('site.name')</th>
+                                    <th>@lang('site.products_count')</th>
+                                    <th>@lang('site.related_products')</th>
                                     <th>@lang('site.action')</th>
                                 </tr>
                                 </thead>
@@ -60,14 +65,18 @@
                                     <tr>
                                         <td>{{$index +1}}</td>
                                         <td>{{$category->name}}</td>
+                                        <td>{{$category->product}}</td>
+                                        <td><a href="{{route('products.index',['category_id' => $category->id])}}" class="btn btn-primary">@lang('site.related_products')</a></td>
                                         <td>
-                                            {{--@if(auth()->category()->hasPermission('categories_update'))--}}
+                                            @if(auth()->user()->hasPermission('categories_update'))
                                                 <a href="{{route('categories.edit',$category->id)}}"class="btn btn-info btn-sm">@lang('site.edit')</a>
-                                            {{--@else--}}
+                                            @else
+                                                <a href="#"class="btn btn-info btn-sm disabled">@lang('site.edit')</a>
+                                            @endif
 
 
 
-                                            {{--@if(auth()->category()->hasPermission('categories_delete'))--}}
+                                            @if(auth()->user()->hasPermission('categories_delete'))
                                                     <form action="{{route('categories.destroy',$category->id)}}" method="post" style="display: inline-block">
 
                                                         {{csrf_field()}}
@@ -77,9 +86,9 @@
                                                         <button type="submit"class="btn btn-danger delete btn-sm">@lang('site.delete')</button>
 
                                                     </form>
-                                                {{--@else--}}
-
-                                                {{--@endif--}}
+                                                @else
+                                                    <button type="submit"class="btn btn-danger delete btn-sm disabled">@lang('site.delete')</button>
+                                                @endif
 
                                         </td>
                                     </tr>

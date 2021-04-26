@@ -26,8 +26,15 @@ Route::group(
         //user Routes
         Route::resource('users','UserController')->except('show');
 
+        //product Routes
+        Route::resource('products','ProductController')->except('show');
+
         //category Routes
         Route::resource('categories','CategoryController')->except('show');
+
+        //client Routes
+        Route::resource('clients','ClientController')->except('show');
+        Route::resource('clients.orders','Client\OrderController')->except('show');
 
     });
 
