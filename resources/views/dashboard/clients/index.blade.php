@@ -66,7 +66,7 @@
                                     <tr>
                                         <td>{{$index +1}}</td>
                                         <td>{{$client->name}}</td>
-                                        <td>{{implode($client->phone,'-')}}</td> {{--@foreach($client->phone as $phone){{$phone}}-@endforeach--}}
+                                        <td>{{ is_array($client->phone) ? implode($client->phone,'-') : $client->phone}}</td> {{--@foreach($client->phone as $phone){{$phone}}-@endforeach--}}
                                         <td>{{$client->address}}</td>
                                         @if(auth()->user()->hasPermission('orders_create'))
                                         <td><a href="{{route('clients.orders.create',$client->id)}}" class="btn btn-primary btn-sm">@lang('site.add_order')</a></td>

@@ -265,6 +265,7 @@
 
 {{--morris --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+{{-- <script src="{{ asset('dashboard_files/plugins/morris/raphael.nim.js.min.js') }}"></script> --}}
 <script src="{{ asset('dashboard_files/plugins/morris/morris.min.js') }}"></script>
 
 {{--custom js--}}

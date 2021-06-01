@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Order;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,5 +59,6 @@ class User extends Authenticatable
         return asset('uploads/user_images/' . $this->image);
 
     }//end image path
+
 
 }//end of Model

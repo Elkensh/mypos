@@ -14,9 +14,18 @@ class Product extends Model implements TranslatableContract
     protected $guarded= [];
     protected $appends = ['image_path','profit_percent'];
 
+
+    //////////////////////////// Relations ////////////////////////////////////
     public function category (){
         return $this->belongsTo(Category::class);
-    }
+    }//end of category
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class,'product_order');
+    }//end of orders
+
+    //////////////////////////// End Relations ////////////////////////////////
 
 
     public function getImagePathAttribute()
@@ -32,4 +41,5 @@ class Product extends Model implements TranslatableContract
         return number_format($profit_percent , 2) ;
 
     }//end of profit_percent
+
 }

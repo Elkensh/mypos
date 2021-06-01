@@ -27,6 +27,10 @@
                 <li><a href="{{ route('clients.index') }}"><i class="fa fa-th"></i><span>@lang('site.clients')</span></a></li>
             @endif
 
+            @if (auth()->user()->hasPermission('orders_read'))
+                <li><a href="{{ route('orders.index') }}"><i class="fa fa-th"></i><span>@lang('site.orders')</span></a></li>
+            @endif
+
             @if(auth()->user()->hasPermission('users_read'))
             <li><a href="{{route('users.index')}}"><i class="fa fa-th"></i><span>@lang('site.users')</span></a></li>
             @endif

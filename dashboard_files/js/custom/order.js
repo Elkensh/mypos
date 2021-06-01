@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+
     //add product btn
 
     $('.add-product-btn').on('click', function (e) {
@@ -116,4 +117,7 @@ function calculateTotal() {
 
     }//end of else
 
+
+
 }//end of calculate total
+

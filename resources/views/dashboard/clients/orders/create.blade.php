@@ -142,7 +142,7 @@
 
                     </div><!-- end of box -->
 
-                    {{--@if ($client->orders->count() > 0)
+                    @if ($client->orders->count() > 0)
 
                         <div class="box box-primary">
 
@@ -177,6 +177,9 @@
                                                             <li class="list-group-item">{{ $product->name }}</li>
                                                         @endforeach
                                                     </ul>
+                                                    <h4>@lang('site.total')
+                                                        {{ $order->total_price}}
+                                                    </h4>
 
                                                 </div><!-- end of panel body -->
 
@@ -194,7 +197,7 @@
 
                         </div><!-- end of box -->
 
-                    @endif--}}
+                    @endif
 
                 </div><!-- end of col -->
 
